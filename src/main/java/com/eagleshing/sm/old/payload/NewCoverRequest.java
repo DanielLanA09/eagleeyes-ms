@@ -184,6 +184,4 @@ public class NewCoverRequest {
 	public void setTags(List<NewTagRequest> tags) {
 		this.tags = tags;
 	}
-	
-	
 }

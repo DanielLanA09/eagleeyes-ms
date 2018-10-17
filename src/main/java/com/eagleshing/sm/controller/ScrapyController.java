@@ -65,8 +65,6 @@ public class ScrapyController {
 	@GetMapping("/getoldcover")
 	public ResponseEntity<?> getAllOldCovers(){
 		try {
-			
-			
 			return ResponseEntity.ok(oldCoverHelper.findByStatus((byte)0));
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getCause().getMessage());
@@ -95,9 +93,9 @@ public class ScrapyController {
 					for (Tab tab : tabs) {
 						List<AdditionType> types = tab.getAdditions();
 						Devision devision = devisionHelper.findByCoverIdAndName(cover.getId(), tab.getTitle());
-						
+
 						for (AdditionType aType : types) {
-							
+
 							List<AdditionContent> contents = aType.getAdditionInfo();
 							for (AdditionContent c : contents) {
 								DevisionParams dParam = new DevisionParams();
@@ -106,7 +104,7 @@ public class ScrapyController {
 								dParam.setData(c.getKeyValue());
 								dParam.setMust(c.getNeed());
 								dParam.setDevisionId(devision.getId());
-								devisionParamsHelper.save(dParam);								
+								devisionParamsHelper.save(dParam);
 							}
 						}
 					}
