@@ -9,6 +9,7 @@ import java.util.Set;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
+import org.apache.ibatis.annotations.Update;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -152,6 +153,24 @@ public class PostController {
 		}
 	}
 
+	@PostMapping("/publish")
+
+	public ResponseEntity<?> publish(@Valid @RequestBody Cover request){
+		try{
+			if(coverHelper.existsById(request.getId())){
+				coverHelper.findById(request.getId()).map(res->{
+					res.setStatus((byte) 0);
+					return coverHelper.save(res);
+				});
+				return ResponseEntity.ok("发布成功！");
+			}else{
+				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("未找到这条数据，请确认重试！");
+			}
+		}catch (Exception e){
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getCause().getMessage());
+		}
+	}
+
 	@PostMapping("/saveall")
 	@Transactional
 	public ResponseEntity<?> saveAll(@Valid @RequestBody NewCoverRequest request) {
@@ -169,6 +188,7 @@ public class PostController {
 			newCover.setProject(request.getProject());
 			newCover.setProjectDistrict(request.getProjectDistrict());
 			newCover.setDistrict(request.getDistrict());
+			newCover.setPrice(request.getPrice());
 
 			Cover savedCover = coverHelper.save(newCover);
 			List<NewTagRequest> tags = request.getTags();

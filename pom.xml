@@ -5,11 +5,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.eagleshing</groupId>
-	<artifactId>EagleEye-SM</artifactId>
-	<version>0.0.1</version>
+	<artifactId>ealgeeyes-ms</artifactId>
+	<version>3.0</version>
 	<packaging>war</packaging>
 
-	<name>EagleEyeSM</name>
+	<name>ealgeeyes-ms</name>
 	<description>Demo project for Spring Boot</description>
 
 	<parent>
