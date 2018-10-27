@@ -29,11 +29,11 @@ import com.eagleshing.sm.model.TagSet;
 import com.eagleshing.sm.payload.ApiResponse;
 import com.eagleshing.sm.payload.SaveQuestionRequest;
 import com.eagleshing.sm.payload.SaveQuestionResponse;
-import com.eagleshing.sm.repository.DevisionParamsSetRepository;
-import com.eagleshing.sm.repository.DevisionSetRepository;
-import com.eagleshing.sm.repository.QuestionOptionRepository;
-import com.eagleshing.sm.repository.QuestionRepository;
-import com.eagleshing.sm.repository.TagSetRepository;
+import com.eagleshing.sm.model.repository.DevisionParamsSetRepository;
+import com.eagleshing.sm.model.repository.DevisionSetRepository;
+import com.eagleshing.sm.model.repository.QuestionOptionRepository;
+import com.eagleshing.sm.model.repository.QuestionRepository;
+import com.eagleshing.sm.model.repository.TagSetRepository;
 
 @RestController
 @RequestMapping("api/postmanage/")

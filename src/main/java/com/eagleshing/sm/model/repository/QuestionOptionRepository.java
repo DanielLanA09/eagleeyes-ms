@@ -1,4 +1,4 @@
-package com.eagleshing.sm.repository;
+package com.eagleshing.sm.model.repository;
 
 import java.util.Set;
 

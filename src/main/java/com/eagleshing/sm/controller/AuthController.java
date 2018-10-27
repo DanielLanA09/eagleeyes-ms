@@ -28,8 +28,8 @@ import com.eagleshing.sm.payload.ApiResponse;
 import com.eagleshing.sm.payload.JwtAuthenticationResponse;
 import com.eagleshing.sm.payload.LoginRequest;
 import com.eagleshing.sm.payload.SignUpRequest;
-import com.eagleshing.sm.repository.RoleRepository;
-import com.eagleshing.sm.repository.UserRepository;
+import com.eagleshing.sm.model.repository.RoleRepository;
+import com.eagleshing.sm.model.repository.UserRepository;
 import com.eagleshing.sm.security.JwtTokenProvider;
 
 @RestController

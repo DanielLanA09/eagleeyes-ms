@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.eagleshing.sm.model.User;
-import com.eagleshing.sm.repository.UserRepository;
+import com.eagleshing.sm.model.repository.UserRepository;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {

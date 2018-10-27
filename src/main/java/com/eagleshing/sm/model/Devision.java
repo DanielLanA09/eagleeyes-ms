@@ -36,18 +36,21 @@ public class Devision {
 	@Column(name="cover_id")
 	private int coverId;
 
+	@Column(name = "devset_id")
+	private int devset_id;
+
 	public Devision(DevisionSet devisionSet,Cover cover) {
 		this.coverId = cover.getId();
 		this.name = devisionSet.getName();
 		this.des = devisionSet.getDes();
 		this.footerDes = devisionSet.getFooterDes();
 		this.sort = devisionSet.getSort();
+		this.devset_id = devisionSet.getId();
 	}
 	
 	public Devision() {
 		
 	}
-	
 
 	public String getFooterDes() {
 		return footerDes;
@@ -120,7 +123,12 @@ public class Devision {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-	
 
+	public int getDevset_id() {
+		return devset_id;
+	}
+
+	public void setDevset_id(int devset_id) {
+		this.devset_id = devset_id;
+	}
 }

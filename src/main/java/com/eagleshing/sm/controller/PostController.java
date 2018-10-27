@@ -9,7 +9,6 @@ import java.util.Set;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
-import org.apache.ibatis.annotations.Update;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -40,14 +39,14 @@ import com.eagleshing.sm.payload.SaveCoverRequest;
 import com.eagleshing.sm.payload.SaveCoverResponse;
 import com.eagleshing.sm.payload.SaveDevisionResponse;
 import com.eagleshing.sm.payload.SaveParamsRequest;
-import com.eagleshing.sm.repository.CoverRepository;
-import com.eagleshing.sm.repository.CoverTagsRepository;
-import com.eagleshing.sm.repository.DevisionParamsRepository;
-import com.eagleshing.sm.repository.DevisionParamsSetRepository;
-import com.eagleshing.sm.repository.DevisionRepository;
-import com.eagleshing.sm.repository.DevisionSetRepository;
-import com.eagleshing.sm.repository.ModuleRepository;
-import com.eagleshing.sm.repository.TagRepository;
+import com.eagleshing.sm.model.repository.CoverRepository;
+import com.eagleshing.sm.model.repository.CoverTagsRepository;
+import com.eagleshing.sm.model.repository.DevisionParamsRepository;
+import com.eagleshing.sm.model.repository.DevisionParamsSetRepository;
+import com.eagleshing.sm.model.repository.DevisionRepository;
+import com.eagleshing.sm.model.repository.DevisionSetRepository;
+import com.eagleshing.sm.model.repository.ModuleRepository;
+import com.eagleshing.sm.model.repository.TagRepository;
 
 @RestController
 @RequestMapping("api/post")
@@ -77,6 +76,9 @@ public class PostController {
 	@Autowired
 	private DevisionParamsRepository devisionParamsHelper;
 
+	/*
+		Get all covers by title.
+	 */
 	@GetMapping("/getall/{title}")
 	public ResponseEntity<?> getAll(Pageable pageable, @PathVariable String title) {
 		try {
@@ -87,6 +89,9 @@ public class PostController {
 		}
 	}
 
+	/*
+		Get all covers.
+	 */
 	@GetMapping("/getall")
 	public ResponseEntity<?> getAll(Pageable pageable) {
 		try {
@@ -131,6 +136,7 @@ public class PostController {
 					// save it
 					Devision savedDevision = devisionHelper.save(new Devision(devisionSet, savedCover));
 					// convert it to SaveDevisionResponse
+					//fixme: use savedDevision and devisionset to construct SaveDevisionResponse.
 					SaveDevisionResponse saveDevisionResponse = new SaveDevisionResponse(savedDevision);
 					// Retrieve all parameters
 					List<DevisionParamsSet> devisionParamsSets = devisionParamsSetHelper
@@ -154,7 +160,6 @@ public class PostController {
 	}
 
 	@PostMapping("/publish")
-
 	public ResponseEntity<?> publish(@Valid @RequestBody Cover request){
 		try{
 			if(coverHelper.existsById(request.getId())){
@@ -164,13 +169,14 @@ public class PostController {
 				});
 				return ResponseEntity.ok("发布成功！");
 			}else{
-				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("未找到这条数据，请确认重试！");
+				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("未找到这条数据，请重试！");
 			}
 		}catch (Exception e){
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getCause().getMessage());
 		}
 	}
 
+	//todo: Delete this after imported old database.
 	@PostMapping("/saveall")
 	@Transactional
 	public ResponseEntity<?> saveAll(@Valid @RequestBody NewCoverRequest request) {

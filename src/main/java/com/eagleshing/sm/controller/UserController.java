@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.eagleshing.sm.exception.ResourceNotFoundException;
 import com.eagleshing.sm.model.User;
 import com.eagleshing.sm.payload.UserProfile;
-import com.eagleshing.sm.repository.UserRepository;
+import com.eagleshing.sm.model.repository.UserRepository;
 
 @RestController
 @RequestMapping("/api")
