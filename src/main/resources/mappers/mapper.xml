@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.eagleshing.ms.payload">
+    <resultMap id="CoverMapper" type="PrepareCoverResponse">
+        <id column="id" property="id"></id>
+        <result column="title" property="title"></result>
+        <result column="img" property="img"></result>
+        <result column="latitude" property="latitude"></result>
+        <result column="longitude" property="longitude"></result>
+        <result column="status" property="status"></result>
+        <result column="des" property="des"></result>
+        <result column="view_c" property="viewC"></result>
+        <result column="transmit_c" property="transmitC"></result>
+        <result column="address" property="address"></result>
+        <result column="project" property="project"></result>
+        <result column="project_district" property="projectDistrict"></result>
+        <result column="price" property="price"></result>
+        <result column="author" property="author"></result>
+        <collection property="tags" column="tag_id" ofType="TagResponse">
+            <id column="tag_id" property="id"></id>
+            <result column="name" property="name" ></result>
+            <result column="type" property="type" ></result>
+        </collection>
+        <collection property="devisions" column="dev_id" ofType="SaveDevisionResponse">
+            <id column="dev_id" property="id"></id>
+            <result column="name" property="name"></result>
+            <result column="des" property="des"></result>
+            <result column="footerDes" property="footerDes"></result>
+            <result column="sort" property="sort"></result>
+            <result column="type" property="type"></result>
+            <result column="mark" property="mark"></result>
+            <result column="cover_id" property="coverId"></result>
+            <collection property="paramsList" column="param_id" ofType="DevisionParams">
+                <id column="param_id" property="id"></id>
+                <result column="name" property="name"></result>
+                <result column="type" property="type" ></result>
+            </collection>
+            <collection property="moduleList" column="module_id" ofType="ModuleResponse">
+                <id property="module_id" column="id"></id>
+                <result property="name" column="name" ></result>
+                <result column="sort" property="sort" ></result>
+                <result column="status" property="status" ></result>
+                <result column="des" property="des" ></result>
+                <result column="json_content" property="jsonContent" ></result>
+                <result column="devision_id" property="devisionId" ></result>
+            </collection>
+        </collection>
+    </resultMap>
+    <select id="prepareCover" resultMap="CoverMapper" >
+
+    </select>
+
+</mapper>
