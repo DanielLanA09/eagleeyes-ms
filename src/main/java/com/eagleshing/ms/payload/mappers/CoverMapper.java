@@ -1,7 +1,7 @@
 package com.eagleshing.ms.payload.mappers;
 
-import com.eagleshing.ms.payload.PrepareCoverResponse;
+import com.eagleshing.ms.payload.CoverResponse;
 
 public interface CoverMapper {
-    PrepareCoverResponse prepareCover (int coverId);
+    CoverResponse findCover (int coverId);
 }

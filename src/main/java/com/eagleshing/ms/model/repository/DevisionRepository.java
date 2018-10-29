@@ -11,4 +11,6 @@ public interface DevisionRepository extends JpaRepository<Devision, Integer>{
 	List<Devision> findByCoverId(int id);
 	
 	Devision findByCoverIdAndName(int id,String name);
+	
+	Devision findByDevSetId(int devsetId);
 }

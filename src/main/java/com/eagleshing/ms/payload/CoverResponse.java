@@ -8,7 +8,7 @@ import java.util.Set;
 import com.eagleshing.ms.model.Cover;
 import com.eagleshing.ms.model.Tag;
 
-public class SaveCoverResponse {
+public class CoverResponse {
 	
 	private int id;
 
@@ -42,13 +42,13 @@ public class SaveCoverResponse {
 
 	private Set<TagResponse> tags = new HashSet<>();
 
-    private List<SaveDevisionResponse> devisions = new ArrayList<>();
+    private List<DevisionResponse> devisions = new ArrayList<>();
 
-    public SaveCoverResponse(){
+    public CoverResponse(){
 
 	}
 
-	public SaveCoverResponse(Cover cover){
+	public CoverResponse(Cover cover){
     	this.id = cover.getId();
     	this.title = cover.getTitle();
     	this.img = cover.getImg();
@@ -186,11 +186,11 @@ public class SaveCoverResponse {
 		this.author = author;
 	}
 
-	public List<SaveDevisionResponse> getDevisions() {
+	public List<DevisionResponse> getDevisions() {
 		return devisions;
 	}
 
-	public void setDevisions(List<SaveDevisionResponse> devisions) {
+	public void setDevisions(List<DevisionResponse> devisions) {
 		this.devisions = devisions;
 	}
 

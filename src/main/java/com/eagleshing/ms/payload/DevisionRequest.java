@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.eagleshing.ms.model.Devision;
 
-public class SaveDevisionRequest {
+public class DevisionRequest {
 	
 	private int coverId;
 	

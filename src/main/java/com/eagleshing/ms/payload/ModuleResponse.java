@@ -1,5 +1,6 @@
 package com.eagleshing.ms.payload;
 
+import com.eagleshing.ms.model.Module;
 import com.eagleshing.ms.model.ModuleBranch;
 
 public class ModuleResponse {
@@ -19,6 +20,20 @@ public class ModuleResponse {
     private String jsonContent;
 
     private int devisionId;
+    
+    public ModuleResponse() {
+    	
+    }
+    
+    public ModuleResponse(Module module) {
+    	setName(module.getName());
+    	setBranch(module.getBranch());
+    	setSort(module.getSort());
+    	setStatus(module.getStatus());
+    	setDes(module.getDes());
+    	setJsonContent(module.getJsonContent());
+    	setDevisionId(module.getDevisionId());
+    }
 
     public int getId() {
         return id;

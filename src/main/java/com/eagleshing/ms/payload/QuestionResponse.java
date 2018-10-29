@@ -4,7 +4,7 @@ import java.util.Set;
 
 import com.eagleshing.ms.model.QuestionOption;
 
-public class SaveQuestionResponse {
+public class QuestionResponse {
 	
 	int id;
 	

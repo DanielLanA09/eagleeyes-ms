@@ -6,7 +6,7 @@ import java.util.Set;
 import com.eagleshing.ms.model.Cover;
 import com.eagleshing.ms.model.Tag;
 
-public class SaveCoverRequest {
+public class CoverRequest {
 	
 	private Cover cover;
 	

@@ -4,12 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.eagleshing.ms.model.Devision;
-import com.eagleshing.ms.model.DevisionParams;
 import com.eagleshing.ms.model.DevisionSet;
 import com.eagleshing.ms.model.DevisionType;
-import com.eagleshing.ms.model.Module;
 
-public class SaveDevisionResponse {
+public class DevisionResponse {
 
 	private int id;
 
@@ -26,32 +24,48 @@ public class SaveDevisionResponse {
 	private int mark;
 
 	private int coverId;
+	
+	private int devSetId;
 
-	private List<ParaResponse> paramsList = new ArrayList<>();
+	private List<ParamResponse> paramsList = new ArrayList<>();
 
 	private List<ModuleResponse> moduleList = new ArrayList<>();
 
-	public SaveDevisionResponse(){
+	public DevisionResponse() {
 
 	}
 
-	public SaveDevisionResponse(DevisionSet devSet) {
+	public DevisionResponse(DevisionSet devSet) {
 		this.name = devSet.getName();
 		this.des = devSet.getDes();
 		this.footerDes = devSet.getFooterDes();
 		this.sort = devSet.getSort();
 		this.type = devSet.getType();
+		this.devSetId = devSet.getId();
 	}
 
-	public SaveDevisionResponse(DevisionSet devSet,Devision dev){
+	public DevisionResponse(DevisionSet devSet, Devision dev) {
 		this.name = devSet.getName();
 		this.des = devSet.getDes();
 		this.footerDes = devSet.getFooterDes();
 		this.sort = devSet.getSort();
 		this.type = devSet.getType();
-		this.id = dev.getId();
-		this.mark = dev.getMark();
-		this.coverId = dev.getCoverId();
+		this.devSetId = devSet.getId();
+		if (dev != null) {
+			this.id = dev.getId();
+			this.mark = dev.getMark();
+			this.coverId = dev.getCoverId();
+		}
+	}
+	
+	
+
+	public int getDevSetId() {
+		return devSetId;
+	}
+
+	public void setDevSetId(int devSetId) {
+		this.devSetId = devSetId;
 	}
 
 	public int getId() {
@@ -110,27 +124,27 @@ public class SaveDevisionResponse {
 		this.coverId = coverId;
 	}
 
-	public List<ParaResponse> getParamsList() {
+	public List<ParamResponse> getParamsList() {
 		return paramsList;
 	}
 
-	public void setParamsList(List<ParaResponse> paramsList) {
+	public void setParamsList(List<ParamResponse> paramsList) {
 		this.paramsList = paramsList;
 	}
 
 	public String getFooterDes() {
-        return footerDes;
-    }
+		return footerDes;
+	}
 
-    public void setFooterDes(String footerDes) {
-        this.footerDes = footerDes;
-    }
+	public void setFooterDes(String footerDes) {
+		this.footerDes = footerDes;
+	}
 
-    public List<ModuleResponse> getModuleList() {
-        return moduleList;
-    }
+	public List<ModuleResponse> getModuleList() {
+		return moduleList;
+	}
 
-    public void setModuleList(List<ModuleResponse> moduleList) {
-        this.moduleList = moduleList;
-    }
+	public void setModuleList(List<ModuleResponse> moduleList) {
+		this.moduleList = moduleList;
+	}
 }

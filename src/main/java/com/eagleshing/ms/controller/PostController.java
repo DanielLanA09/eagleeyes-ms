@@ -9,7 +9,6 @@ import java.util.Set;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
-import com.eagleshing.ms.payload.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -39,6 +38,14 @@ import com.eagleshing.ms.model.repository.DevisionRepository;
 import com.eagleshing.ms.model.repository.DevisionSetRepository;
 import com.eagleshing.ms.model.repository.ModuleRepository;
 import com.eagleshing.ms.model.repository.TagRepository;
+import com.eagleshing.ms.payload.ApiResponse;
+import com.eagleshing.ms.payload.CoverRequest;
+import com.eagleshing.ms.payload.CoverResponse;
+import com.eagleshing.ms.payload.DevisionResponse;
+import com.eagleshing.ms.payload.ModuleResponse;
+import com.eagleshing.ms.payload.ParamResponse;
+import com.eagleshing.ms.payload.ParamsRequest;
+import com.eagleshing.ms.payload.TagResponse;
 
 @RestController
 @RequestMapping("api/post")
@@ -99,18 +106,22 @@ public class PostController {
 	 */
 	@PostMapping("/savecover/{prepare}")
 	@Transactional
-	public ResponseEntity<?> saveCover(@Valid @RequestBody SaveCoverRequest request, @PathVariable boolean prepare) {
+	public ResponseEntity<?> saveCover(@Valid @RequestBody CoverRequest request, @PathVariable boolean prepare) {
 		try {
 			if (devisionSetHelper.findAll().size() == 0) {
 				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("请先设置栏目再返回添加文章！");
 			}
 			Cover savedCover = coverHelper.save(request.getCover());
+			
 			// save tags and cover_tags table
 			Set<Tag> tags = request.getTags();
 			for (Tag tag : tags) {
 				Tag _tag = tagHelper.findByName(tag.getName());
 				if (_tag != null) {
-					coverTagHelper.save(new CoverTags(savedCover.getId(), _tag.getId()));
+					List<CoverTags> ct = coverTagHelper.findByCoverIdAndTagId(savedCover.getId(), _tag.getId());
+					if(ct == null) {
+						coverTagHelper.save(new CoverTags(savedCover.getId(), _tag.getId()));
+					}
 				} else {
 					_tag = tagHelper.save(tag);
 					coverTagHelper.save(new CoverTags(savedCover.getId(), _tag.getId()));
@@ -121,30 +132,28 @@ public class PostController {
 				// DevisionParamsSet
 				// Fist, find all devision sets
 				List<DevisionSet> devisionSets = devisionSetHelper.findAll();
-
 				// Second, save them and add them to SaveDevisionResponse list
-				List<SaveDevisionResponse> saveDevisionResponses = new ArrayList<>();
+				List<DevisionResponse> saveDevisionResponses = new ArrayList<>();
 				for (DevisionSet devisionSet : devisionSets) {
+					
 					// save it
 					Devision savedDevision = devisionHelper.save(new Devision(devisionSet, savedCover));
+					savedDevision.setCoverId(savedCover.getId());
 					// convert it to SaveDevisionResponse
 					//fixme: use savedDevision and devisionset to construct SaveDevisionResponse.
-					SaveDevisionResponse saveDevisionResponse = new SaveDevisionResponse(devisionSet);
-					savedDevision.setCoverId(savedCover.getId());
+					DevisionResponse saveDevisionResponse = new DevisionResponse(devisionSet,savedDevision);
+					
 					// Retrieve all parameters
-					List<DevisionParamsSet> devisionParamsSets = devisionParamsSetHelper
-							.findByDevisionSetId(devisionSet.getId());
+					List<DevisionParamsSet> devisionParamsSets = devisionParamsSetHelper.findByDevisionSetId(devisionSet.getId());
 					// Save all parameters and add them to SaveDevisionResponse's paramsList
 					for (DevisionParamsSet paramSet : devisionParamsSets) {
-						DevisionParams savedParam = devisionParamsHelper
-								.save(new DevisionParams(paramSet, savedDevision));
-
-						saveDevisionResponse.getParamsList().add(new ParaResponse(savedParam));
+						DevisionParams savedParam = devisionParamsHelper.save(new DevisionParams(paramSet, savedDevision));
+						saveDevisionResponse.getParamsList().add(new ParamResponse(savedParam));
 					}
 					// finally add into SaveDevisionResponse list
 					saveDevisionResponses.add(saveDevisionResponse);
 				}
-				SaveCoverResponse saveCoverResponse = new SaveCoverResponse(savedCover);
+				CoverResponse saveCoverResponse = new CoverResponse(savedCover);
 				saveCoverResponse.setDevisions(saveDevisionResponses);
 				return ResponseEntity.ok(saveCoverResponse);
 			}
@@ -240,8 +249,9 @@ public class PostController {
 //		}
 //	}
 
+	
 	/*
-	 * Retrieve Cover and it contains devisions, modules, parameters and tags.
+	 * Retrieve Cover and it contains and tags.
 	 */
 	@GetMapping("/getcover/{id}")
 	@Transactional
@@ -249,39 +259,40 @@ public class PostController {
 		try {
 			if (coverHelper.existsById(id)) {
 				Cover existCover = coverHelper.findById(id).get();
-				List<Devision> existDevisions = devisionHelper.findByCoverId(existCover.getId());
-
 				List<CoverTags> tagRelatives = coverTagHelper.findByCoverId(existCover.getId());
 				Set<TagResponse> tags = new HashSet<>();
 				for (CoverTags coverTags : tagRelatives) {
 					tags.add(new TagResponse(tagHelper.findById(coverTags.getTagId()).get()));
 				}
-				SaveCoverResponse result = new SaveCoverResponse(existCover);
-				result.setTags(tags);
+				CoverResponse coverResponse = new CoverResponse(existCover);
+				coverResponse.setTags(tags);
+				
+				List<DevisionResponse> devisionResponses = new ArrayList<>();
+				List<Devision> existDevisions = devisionHelper.findByCoverId(coverResponse.getId());
 				for (Devision devision : existDevisions) {
-					List<DevisionParams> existParams = devisionParamsHelper.findByDevisionId(devision.getId());
-					List<Module> existModules = moduleHelper.findByDevisionId(devision.getId());
-
-					DevisionSet devSet;
-					if(devision.getDevsetId()!=0){
-						devSet = devisionSetHelper.findById(devision.getDevsetId()).get();
-					}else{
-						devSet = devisionSetHelper.findByName(devision.getName());
+					DevisionSet devSet = devisionSetHelper.findById(devision.getDevSetId()).get();
+					DevisionResponse devisionResponse = new DevisionResponse(devSet,devision);
+					
+					List<DevisionParams> params = devisionParamsHelper.findByDevisionId(devision.getId());
+					List<ParamResponse> paramResponses = new ArrayList<>();
+					for (DevisionParams param : params) {
+						paramResponses.add(new ParamResponse(param));
 					}
-
-					if(devSet.getName()==null){
-						return ResponseEntity.status(HttpStatus.NOT_FOUND).body("The devisonSet was not found!");
+					devisionResponse.setParamsList(paramResponses);
+					
+					List<Module> modules = moduleHelper.findByDevisionId(devision.getId());
+					List<ModuleResponse> moduleResponses = new ArrayList<>();
+					for (Module module : modules) {
+						moduleResponses.add(new ModuleResponse(module));
 					}
-
-					SaveDevisionResponse saveDevisionResponse = new SaveDevisionResponse(devSet,devision);
-					saveDevisionResponse.setModuleList(existModules);
-					saveDevisionResponse.setParamsList(existParams);
-
-					result.getDevisions().add(saveDevisionResponse);
+					devisionResponse.setModuleList(moduleResponses);
+					
+					devisionResponses.add(devisionResponse);
 				}
-
-				return ResponseEntity.ok(result);
-
+				coverResponse.setDevisions(devisionResponses);
+				
+				return ResponseEntity.ok(coverResponse);
+				
 			} else {
 				return ResponseEntity.notFound().build();
 			}
@@ -354,6 +365,48 @@ public class PostController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getCause().getMessage());
 		}
 	}
+	
+	@GetMapping("/getdevisionbyname/{coverid}/{devname}")
+	@Transactional
+	public ResponseEntity<?> getDevisionsByName(@PathVariable int coverid,@PathVariable String devname){
+		try {
+			DevisionResponse devRes;
+			
+			DevisionSet devSet = devisionSetHelper.findByName(devname);
+			Devision devision = devisionHelper.findByDevSetId(devSet.getId());			
+			if(devision==null) {
+				devision = devisionHelper.findByCoverIdAndName(coverid, devname);
+				devRes = new DevisionResponse(devSet,devision);
+			}else {
+				devRes = new DevisionResponse(devSet,devision);
+			}
+			
+			List<DevisionParams> params = devisionParamsHelper.findByDevisionId(devision.getId());
+			List<ParamResponse> paramResList = new ArrayList<>();
+			for (DevisionParams param : params) {
+				paramResList.add(new ParamResponse(param));
+			}
+			
+			if(paramResList.size()==0) {
+				List<DevisionParamsSet> devSets = devisionParamsSetHelper.findByDevisionSetId(devSet.getId());
+				for (DevisionParamsSet devisionParamsSet : devSets) {
+					paramResList.add(new ParamResponse(devisionParamsHelper.save(new DevisionParams(devisionParamsSet,devision))));
+				}
+			}
+			
+			List<Module> modules = moduleHelper.findByDevisionId(devision.getId());
+			List<ModuleResponse> moduleResList = new ArrayList<>();
+			for (Module module : modules) {
+				moduleResList.add(new ModuleResponse(module));
+			}
+			
+			devRes.setModuleList(moduleResList);
+			devRes.setParamsList(paramResList);
+			return ResponseEntity.ok(devRes);
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getCause().getMessage());
+		}
+	}
 
 	@DeleteMapping("/deletedevision/{id}")
 	public ResponseEntity<?> deleteDevision(@PathVariable int id) {
@@ -411,13 +464,14 @@ public class PostController {
 
 	@PostMapping("/saveparams")
 	@Transactional
-	public ResponseEntity<?> saveParams(@Valid @RequestBody SaveParamsRequest request) {
+	public ResponseEntity<?> saveParams(@Valid @RequestBody ParamsRequest request) {
 		try {
 			Devision existDevision = devisionHelper.findById(request.getDevisionId()).get();
-			List<DevisionParams> results = new ArrayList<>();
-			for (DevisionParams param : request.getParams()) {
+			List<ParamResponse> results = new ArrayList<>();
+			for (ParamResponse param : request.getParams()) {
 				param.setDevisionId(existDevision.getId());
-				results.add(devisionParamsHelper.save(param));
+				DevisionParams savedParam = devisionParamsHelper.save(new DevisionParams(param));
+				results.add(new ParamResponse(savedParam));
 			}
 			return ResponseEntity.ok(results);
 		} catch (Exception e) {

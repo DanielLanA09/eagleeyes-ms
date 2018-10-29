@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.eagleshing.ms.model.Tag;
 
-public class SaveTagsRequest {
+public class TagsRequest {
 	
 	public int coverid;
 	

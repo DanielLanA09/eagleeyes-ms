@@ -1,8 +1,9 @@
 package com.eagleshing.ms.payload;
 
 import com.eagleshing.ms.model.DevisionParams;
+import com.eagleshing.ms.model.DevisionParamsSet;
 
-public class ParaResponse {
+public class ParamResponse {
 
     private int id;
 
@@ -19,18 +20,44 @@ public class ParaResponse {
     private byte sort;
 
     private int devisionId;
+    
+    private int paramSetId;
 
-    public ParaResponse(){
+    public ParamResponse(){
 
     }
 
-    public ParaResponse(DevisionParams param){
+    public ParamResponse(DevisionParams param){
+    	this.id = param.getId();
         this.type = param.getType();
         this.name = param.getName();
         this.data = param.getData();
         this.des = param.getDes();
         this.must = param.isMust();
         this.sort = param.getSort();
+        this.devisionId = param.getDevisionId();
+        this.paramSetId = param.getParamSetId();
+    }
+    
+    public ParamResponse(DevisionParamsSet param,int devId) {
+    	this.paramSetId = param.getId();
+    	this.type = param.getType();
+        this.name = param.getName();
+        this.des = param.getDes();
+        this.must = param.isMust();
+        this.sort = param.getSort();
+        this.devisionId = devId;
+    }
+    
+    public ParamResponse(DevisionParamsSet param,int devId,int id) {
+    	this.paramSetId = param.getId();
+    	this.type = param.getType();
+        this.name = param.getName();
+        this.des = param.getDes();
+        this.must = param.isMust();
+        this.sort = param.getSort();
+        this.devisionId = devId;
+        this.id = id;
     }
 
     public String getType() {
@@ -96,4 +123,14 @@ public class ParaResponse {
     public void setDevisionId(int devisionId) {
         this.devisionId = devisionId;
     }
+
+	public int getParamSetId() {
+		return paramSetId;
+	}
+
+	public void setParamSetId(int paramSetId) {
+		this.paramSetId = paramSetId;
+	}
+    
+    
 }

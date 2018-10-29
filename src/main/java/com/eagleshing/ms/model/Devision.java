@@ -24,24 +24,24 @@ public class Devision {
 	private int coverId;
 
 	@Column(name = "devset_id")
-	private int devsetId;
+	private int devSetId;
 
 	public Devision(DevisionSet devisionSet,Cover cover) {
 		this.coverId = cover.getId();
 		this.name = devisionSet.getName();
-		this.devsetId = devisionSet.getId();
+		this.devSetId = devisionSet.getId();
 	}
 	
 	public Devision() {
 		
 	}
-
-	public int getDevsetId() {
-		return devsetId;
+	
+	public int getDevSetId() {
+		return devSetId;
 	}
 
-	public void setDevsetId(int devsetId) {
-		this.devsetId = devsetId;
+	public void setDevSetId(int devSetId) {
+		this.devSetId = devSetId;
 	}
 
 	public int getId() {

@@ -1,5 +1,6 @@
 package com.eagleshing.ms.controller;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -27,8 +28,9 @@ import com.eagleshing.ms.model.Question;
 import com.eagleshing.ms.model.QuestionOption;
 import com.eagleshing.ms.model.TagSet;
 import com.eagleshing.ms.payload.ApiResponse;
-import com.eagleshing.ms.payload.SaveQuestionRequest;
-import com.eagleshing.ms.payload.SaveQuestionResponse;
+import com.eagleshing.ms.payload.ParamResponse;
+import com.eagleshing.ms.payload.QuestionRequest;
+import com.eagleshing.ms.payload.QuestionResponse;
 import com.eagleshing.ms.model.repository.DevisionParamsSetRepository;
 import com.eagleshing.ms.model.repository.DevisionSetRepository;
 import com.eagleshing.ms.model.repository.QuestionOptionRepository;
@@ -138,17 +140,6 @@ public class PostManageController {
 		}
 	}
 	
-	@GetMapping("/getparamlistbyname/{name}")
-	public ResponseEntity<?> getParamsListByName(@PathVariable String name){
-		try {
-			DevisionSet devisionSet = devisionSetHelper.findByName(name);
-			List<DevisionParamsSet> params = devisionParamsSetHelper.findByDevisionSetId(devisionSet.getId());
-			return ResponseEntity.ok(params);
-		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse(false, e.getCause().getMessage(), null));
-		}
-	}
-	
 	@PostMapping("/savetagset")
 	public ResponseEntity<?> saveTagSet(@Valid @RequestBody TagSet tagSet){
 		try {
@@ -190,7 +181,7 @@ public class PostManageController {
 	
 	@PostMapping("/addquestion")
 	@Transactional
-	public ResponseEntity<?> addQuestion(@RequestBody SaveQuestionRequest request){
+	public ResponseEntity<?> addQuestion(@RequestBody QuestionRequest request){
 		try {
 			Question question = new Question();
 			question.setId(request.getId());
@@ -227,11 +218,11 @@ public class PostManageController {
 	@Transactional
 	public ResponseEntity<?> getQuestions(){
 		try {
-			Set<SaveQuestionResponse> results = new HashSet<>();
+			Set<QuestionResponse> results = new HashSet<>();
 			List<Question> questions = questionHelper.findAll();
 			for (Question question : questions) {
 				Set<QuestionOption> options = optionHelper.findByQuestionId(question.getId());
-				SaveQuestionResponse res = new SaveQuestionResponse();
+				QuestionResponse res = new QuestionResponse();
 				res.setId(question.getId());
 				res.setTitle(question.getTitle());
 				res.setMultiple(question.isMultiple());

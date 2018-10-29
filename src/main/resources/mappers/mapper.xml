@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.eagleshing.ms.payload">
-    <resultMap id="CoverMapper" type="PrepareCoverResponse">
+    <resultMap id="CoverMapper" type="CoverResponse">
         <id column="id" property="id"></id>
         <result column="title" property="title"></result>
         <result column="img" property="img"></result>
@@ -23,16 +23,14 @@
             <result column="name" property="name" ></result>
             <result column="type" property="type" ></result>
         </collection>
-        <collection property="devisions" column="dev_id" ofType="SaveDevisionResponse">
+        <collection property="devisions" column="dev_id" ofType="DevisionResponse">
             <id column="dev_id" property="id"></id>
             <result column="name" property="name"></result>
-            <result column="des" property="des"></result>
-            <result column="footerDes" property="footerDes"></result>
-            <result column="sort" property="sort"></result>
+            <result column="dev_sort" property="sort"></result>
             <result column="type" property="type"></result>
             <result column="mark" property="mark"></result>
             <result column="cover_id" property="coverId"></result>
-            <collection property="paramsList" column="param_id" ofType="DevisionParams">
+            <collection property="paramsList" column="param_id" ofType="ParamResponse">
                 <id column="param_id" property="id"></id>
                 <result column="name" property="name"></result>
                 <result column="type" property="type" ></result>
@@ -40,16 +38,31 @@
             <collection property="moduleList" column="module_id" ofType="ModuleResponse">
                 <id property="module_id" column="id"></id>
                 <result property="name" column="name" ></result>
-                <result column="sort" property="sort" ></result>
-                <result column="status" property="status" ></result>
+                <result column="dev_sort" property="sort" ></result>
                 <result column="des" property="des" ></result>
                 <result column="json_content" property="jsonContent" ></result>
                 <result column="devision_id" property="devisionId" ></result>
             </collection>
         </collection>
     </resultMap>
-    <select id="prepareCover" resultMap="CoverMapper" >
-
+    <select id="findCover" resultMap="CoverMapper" >
+    	use eagleserver;
+        SELECT
+            c.id,c.address,c.author,c.des,c.district,c.img,c.latitude,c.longitude,c.price,c.project,c.project_district,c.status,c.title,c.transmit_c,c.view_c,
+            t.id tag_id,t.name tag_name,t.type tag_type,
+            d.id dev_id,d.name dev_name,d.type dev_type,d.mark,d.sort dev_sort,
+            m.id module_id, m.branch,m.json_content,m.name module_name,m.sort module_sort
+        FROM
+            cover c
+                INNER JOIN
+            cover_tags ct ON c.id = ct.cover_id
+                INNER JOIN
+            tag t ON ct.tag_id = t.id
+                inner JOIN
+            devision d ON d.cover_id = c.id
+                inner join
+            module m on m.devision_id = d.id
+            where c.id = 5
     </select>
 
 </mapper>

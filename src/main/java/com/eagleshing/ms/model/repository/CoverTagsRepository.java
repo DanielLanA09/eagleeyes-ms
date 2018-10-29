@@ -9,5 +9,7 @@ import com.eagleshing.ms.model.CoverTags;
 public interface CoverTagsRepository extends JpaRepository<CoverTags, Integer>{
 	
 	List<CoverTags> findByCoverId(int id);
+	
+	List<CoverTags> findByCoverIdAndTagId(int coverId,int tagId);
 
 }

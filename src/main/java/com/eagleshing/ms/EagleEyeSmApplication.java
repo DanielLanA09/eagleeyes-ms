@@ -25,7 +25,7 @@ import com.eagleshing.ms.property.FileStorageProperties;
 @EntityScan(basePackageClasses = { EagleEyeSmApplication.class, Jsr310JpaConverters.class })
 @EnableConfigurationProperties({ FileStorageProperties.class })
 @EnableJpaAuditing
-@MapperScan("com.eagleshing.ms.payload")
+@MapperScan("com.eagleshing.ms.payload.mappers")
 public class EagleEyeSmApplication {
 
 	@PostConstruct
