@@ -1,6 +1,7 @@
 package com.eagleshing.ms.old.payload;
 
 public class NewParamsRequest {
+	
 	private int id;
 
 	private String type;
@@ -16,6 +17,16 @@ public class NewParamsRequest {
 	private byte sort;
 
 	private int devisionId;
+	
+	private int paramSetId;	
+	
+	public int getParamSetId() {
+		return paramSetId;
+	}
+
+	public void setParamSetId(int paramSetId) {
+		this.paramSetId = paramSetId;
+	}
 
 	public int getId() {
 		return id;

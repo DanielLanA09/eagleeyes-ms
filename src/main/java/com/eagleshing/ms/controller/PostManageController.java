@@ -106,6 +106,15 @@ public class PostManageController {
 		}
 	}
 	
+	@GetMapping("/getallparamset")
+	public ResponseEntity<?> getAllParamSet(){
+		try {
+			return ResponseEntity.ok(devisionParamsSetHelper.findAll());
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse(false, e.getCause().getMessage(), null));
+		}
+	}
+	
 	@PostMapping("/savaparamset/{devisionsetid}")
 	@Transactional
 	public ResponseEntity<?> saveParamsSet(@Valid @RequestBody DevisionParamsSet paramsSet,@PathVariable int devisionsetid){

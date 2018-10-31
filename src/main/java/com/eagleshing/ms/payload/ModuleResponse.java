@@ -26,6 +26,7 @@ public class ModuleResponse {
     }
     
     public ModuleResponse(Module module) {
+    	setId(module.getId());
     	setName(module.getName());
     	setBranch(module.getBranch());
     	setSort(module.getSort());

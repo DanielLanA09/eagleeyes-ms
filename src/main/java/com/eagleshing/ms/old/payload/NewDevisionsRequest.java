@@ -23,6 +23,8 @@ public class NewDevisionsRequest {
 
 	private int coverId;
 	
+	private int devSetId;
+	
 	private List<NewModuleRequest>	modules= new ArrayList<>();
 	
 	private List<NewParamsRequest> devisionParams = new ArrayList<>();
@@ -105,6 +107,14 @@ public class NewDevisionsRequest {
 
 	public void setDevisionParams(List<NewParamsRequest> devisionParams) {
 		this.devisionParams = devisionParams;
+	}
+
+	public int getDevSetId() {
+		return devSetId;
+	}
+
+	public void setDevSetId(int devSetId) {
+		this.devSetId = devSetId;
 	}
 	
 	
