@@ -2,7 +2,6 @@ package com.eagleshing.ms.controller;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import javax.transaction.Transactional;
 
@@ -16,18 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.eagleshing.ms.model.Cover;
-import com.eagleshing.ms.model.Devision;
-import com.eagleshing.ms.model.DevisionParams;
-import com.eagleshing.ms.old.model.AdditionContent;
-import com.eagleshing.ms.old.model.AdditionType;
-import com.eagleshing.ms.old.model.OlderCover;
-import com.eagleshing.ms.old.model.Tab;
-import com.eagleshing.ms.old.repository.OldCoverRepository;
 import com.eagleshing.ms.payload.PriceCheckResponse;
-import com.eagleshing.ms.model.repository.CoverRepository;
-import com.eagleshing.ms.model.repository.DevisionParamsRepository;
-import com.eagleshing.ms.model.repository.DevisionRepository;
 import com.eagleshing.ms.scrapy.model.BuildingBase;
 import com.eagleshing.ms.scrapy.model.BuildingPrice;
 import com.eagleshing.ms.scrapy.repository.BuildingBaseRepository;
