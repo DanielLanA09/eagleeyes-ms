@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.eagleshing.ms.model.Advice;
 import com.eagleshing.ms.model.Cover;
 import com.eagleshing.ms.model.CoverTags;
 import com.eagleshing.ms.model.Devision;
@@ -31,7 +30,6 @@ import com.eagleshing.ms.model.DevisionParamsSet;
 import com.eagleshing.ms.model.DevisionSet;
 import com.eagleshing.ms.model.Module;
 import com.eagleshing.ms.model.Tag;
-import com.eagleshing.ms.model.repository.AdviceRepository;
 import com.eagleshing.ms.model.repository.CoverRepository;
 import com.eagleshing.ms.model.repository.CoverTagsRepository;
 import com.eagleshing.ms.model.repository.DevisionParamsRepository;

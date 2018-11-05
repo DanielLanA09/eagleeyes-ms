@@ -1,6 +1,5 @@
 package com.eagleshing.ms.controller;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -28,7 +27,6 @@ import com.eagleshing.ms.model.Question;
 import com.eagleshing.ms.model.QuestionOption;
 import com.eagleshing.ms.model.TagSet;
 import com.eagleshing.ms.payload.ApiResponse;
-import com.eagleshing.ms.payload.ParamResponse;
 import com.eagleshing.ms.payload.QuestionRequest;
 import com.eagleshing.ms.payload.QuestionResponse;
 import com.eagleshing.ms.model.repository.DevisionParamsSetRepository;

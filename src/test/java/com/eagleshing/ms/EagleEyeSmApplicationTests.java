@@ -11,6 +11,7 @@ public class EagleEyeSmApplicationTests {
 
 	@Test
 	public void contextLoads() {
+		
 	}
 
 }

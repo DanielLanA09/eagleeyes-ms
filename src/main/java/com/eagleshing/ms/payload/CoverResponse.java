@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Set;
 
 import com.eagleshing.ms.model.Cover;
-import com.eagleshing.ms.model.Tag;
 
 public class CoverResponse {
 	
