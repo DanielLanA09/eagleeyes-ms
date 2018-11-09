@@ -38,11 +38,6 @@ import com.eagleshing.ms.model.repository.DevisionRepository;
 import com.eagleshing.ms.model.repository.DevisionSetRepository;
 import com.eagleshing.ms.model.repository.ModuleRepository;
 import com.eagleshing.ms.model.repository.TagRepository;
-import com.eagleshing.ms.old.payload.NewCoverRequest;
-import com.eagleshing.ms.old.payload.NewDevisionsRequest;
-import com.eagleshing.ms.old.payload.NewModuleRequest;
-import com.eagleshing.ms.old.payload.NewParamsRequest;
-import com.eagleshing.ms.old.payload.NewTagRequest;
 import com.eagleshing.ms.payload.ApiResponse;
 import com.eagleshing.ms.payload.CoverRequest;
 import com.eagleshing.ms.payload.CoverResponse;
@@ -106,85 +101,7 @@ public class PostController {
 		}
 	}
 
-	// todo: Delete this after imported old database.
-	@PostMapping("/saveall")
-	@Transactional
-	public ResponseEntity<?> saveAll(@Valid @RequestBody NewCoverRequest request) {
-		try {
-			Cover newCover = new Cover();
-			newCover.setTitle(request.getTitle());
-			newCover.setImg(request.getImg());
-			newCover.setLatitude(request.getLatitude());
-			newCover.setLongitude(request.getLongitude());
-			newCover.setStatus(request.getStatus());
-			newCover.setDes(request.getDes());
-			newCover.setViewC(request.getViewC());
-			newCover.setTransmitC(request.getTransmitC());
-			newCover.setAddress(request.getAddress());
-			newCover.setProject(request.getProject());
-			newCover.setProjectDistrict(request.getProjectDistrict());
-			newCover.setDistrict(request.getDistrict());
-			newCover.setPrice(request.getPrice());
-
-			Cover savedCover = coverHelper.save(newCover);
-			List<NewTagRequest> tags = request.getTags();
-			for (NewTagRequest tag : tags) {
-				Tag _tag = tagHelper.findByName(tag.getName());
-				if (_tag != null) {
-					coverTagHelper.save(new CoverTags(savedCover.getId(), _tag.getId()));
-				} else {
-					Tag newTag = new Tag();
-					newTag.setName(tag.getName());
-					newTag.setType(tag.getType());
-					_tag = tagHelper.save(newTag);
-					coverTagHelper.save(new CoverTags(savedCover.getId(), _tag.getId()));
-				}
-			}
-			List<NewDevisionsRequest> devisions = request.getDevisions();
-			for (NewDevisionsRequest devision : devisions) {
-				Devision newDevision = new Devision();
-				newDevision.setName(devision.getName());
-				newDevision.setMark(devision.getMark());
-				newDevision.setCoverId(savedCover.getId());
-				newDevision.setDevSetId(devision.getDevSetId());
-				Devision savedDevision = devisionHelper.save(newDevision);
-
-				List<NewModuleRequest> modules = devision.getModules();
-				for (NewModuleRequest module : modules) {
-					Module newModule = new Module();
-					newModule.setName(module.getName());
-					newModule.setBranch(module.getBranch());
-					newModule.setSort(module.getSort());
-					newModule.setStatus(module.getStatus());
-					newModule.setDes(module.getDes());
-					newModule.setJsonContent(module.getJsonContent());
-					newModule.setDevisionId(savedDevision.getId());
-
-					moduleHelper.save(newModule);
-				}
-
-				List<NewParamsRequest> params = devision.getDevisionParams();
-				for (NewParamsRequest param : params) {
-					DevisionParams newParam = new DevisionParams();
-					newParam.setType(param.getType());
-					newParam.setName(param.getName());
-					newParam.setData(param.getData());
-					newParam.setDes(param.getDes());
-					newParam.setMust(param.isMust());
-					newParam.setParamSetId(param.getParamSetId());
-					newParam.setSort(param.getSort());
-					newParam.setDevisionId(savedDevision.getId());
-
-					devisionParamsHelper.save(newParam);
-				}
-
-			}
-			return ResponseEntity.ok("Success");
-
-		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getCause().getMessage());
-		}
-	}
+	
 
 	/*
 	 * Save new cover entity
