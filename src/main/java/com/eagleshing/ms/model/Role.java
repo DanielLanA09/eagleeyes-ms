@@ -11,6 +11,8 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.NaturalId;
 
+import com.eagleshing.ms.model.type.RoleName;
+
 @Entity
 @Table(name = "roles")
 public class Role {

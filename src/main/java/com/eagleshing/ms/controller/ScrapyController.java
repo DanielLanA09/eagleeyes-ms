@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.eagleshing.ms.payload.PriceCheckResponse;
-import com.eagleshing.ms.scrapy.model.BuildingBase;
-import com.eagleshing.ms.scrapy.model.BuildingPrice;
+import com.eagleshing.ms.scrapy.BuildingBase;
+import com.eagleshing.ms.scrapy.BuildingPrice;
 import com.eagleshing.ms.scrapy.repository.BuildingBaseRepository;
 import com.eagleshing.ms.scrapy.repository.BuildingPriceRepository;
 

@@ -1,7 +1,7 @@
 package com.eagleshing.ms.payload;
 
-import com.eagleshing.ms.scrapy.model.BuildingBase;
-import com.eagleshing.ms.scrapy.model.BuildingPrice;
+import com.eagleshing.ms.scrapy.BuildingBase;
+import com.eagleshing.ms.scrapy.BuildingPrice;
 
 public class PriceCheckResponse {
 	

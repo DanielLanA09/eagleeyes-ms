@@ -1,4 +1,4 @@
-package com.eagleshing.ms.scrapy.model;
+package com.eagleshing.ms.scrapy;
 
 import javax.persistence.Table;
 import javax.persistence.Column;

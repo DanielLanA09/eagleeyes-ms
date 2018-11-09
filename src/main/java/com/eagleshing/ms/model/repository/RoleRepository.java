@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.eagleshing.ms.model.Role;
-import com.eagleshing.ms.model.RoleName;
+import com.eagleshing.ms.model.type.RoleName;
 
 @Repository
 public interface RoleRepository extends JpaRepository<Role, Long> {

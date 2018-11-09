@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.eagleshing.ms.model.Devision;
 import com.eagleshing.ms.model.DevisionSet;
-import com.eagleshing.ms.model.DevisionType;
+import com.eagleshing.ms.model.type.DevisionType;
 
 public class DevisionResponse {
 

@@ -22,7 +22,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.eagleshing.ms.exception.AppException;
 import com.eagleshing.ms.model.Role;
-import com.eagleshing.ms.model.RoleName;
 import com.eagleshing.ms.model.User;
 import com.eagleshing.ms.payload.ApiResponse;
 import com.eagleshing.ms.payload.JwtAuthenticationResponse;
@@ -30,6 +29,7 @@ import com.eagleshing.ms.payload.LoginRequest;
 import com.eagleshing.ms.payload.SignUpRequest;
 import com.eagleshing.ms.model.repository.RoleRepository;
 import com.eagleshing.ms.model.repository.UserRepository;
+import com.eagleshing.ms.model.type.RoleName;
 import com.eagleshing.ms.security.JwtTokenProvider;
 
 @RestController

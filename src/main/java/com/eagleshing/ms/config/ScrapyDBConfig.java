@@ -53,7 +53,7 @@ public class ScrapyDBConfig {
 	public LocalContainerEntityManagerFactoryBean scrapyEntityManagerFactory() {
 		LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
 		factory.setDataSource(scrapyDataSource());
-		factory.setPackagesToScan("com.eagleshing.ms.scrapy.model");
+		factory.setPackagesToScan("com.eagleshing.ms.scrapy");
 		factory.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
 		
 		Properties jpaProperties = new Properties();
