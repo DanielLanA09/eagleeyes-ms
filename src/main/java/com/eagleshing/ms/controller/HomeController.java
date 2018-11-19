@@ -12,10 +12,11 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/home")
+@RequestMapping("/api/link")
 public class HomeController {
 
     @Autowired
@@ -29,29 +30,35 @@ public class HomeController {
         return ResponseEntity.ok(homeBlockRepository.save(block));
     }
 
-    @DeleteMapping("/deleteblock")
-    public ResponseEntity<?> deleteBlock(int id){
+    @DeleteMapping("/deleteblock/{id}")
+    @Transactional
+    public ResponseEntity<?> deleteBlock(@PathVariable  int id){
         Optional<HomeBlock> _block = homeBlockRepository.findById(id);
         if(_block.get()==null){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("The entity is not found!");
+        }
+
+        List<ArticleLink> articleLinks = articleLinkRepository.findByBlockId(id);
+        for (ArticleLink link:articleLinks){
+            articleLinkRepository.delete(link);
         }
         homeBlockRepository.delete(_block.get());
         return ResponseEntity.ok("Delete Success!");
     }
 
     @GetMapping("/findblocks")
-    public ResponseEntity<?> findBlocks(Pageable pageable){
-        return ResponseEntity.ok(homeBlockRepository.findByActive(true,pageable));
+    public ResponseEntity<?> findBlocks(){
+        return ResponseEntity.ok(homeBlockRepository.findAll());
     }
 
-    @PostMapping("/savearticle")
+    @PostMapping("/savelink")
     public ResponseEntity<?> saveArticleLink(@Valid @RequestBody ArticleLink articleLink){
         return ResponseEntity.ok(articleLinkRepository.save(articleLink));
     }
 
-    @DeleteMapping("/deletearticle")
+    @DeleteMapping("/deletelink/{id}")
     @Transactional
-    public ResponseEntity<?> deleteArticleLink(int id){
+    public ResponseEntity<?> deleteArticleLink(@PathVariable int id){
         if(!articleLinkRepository.existsById(id)){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("The entity was not found!");
         }

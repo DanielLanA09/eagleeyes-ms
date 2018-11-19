@@ -4,6 +4,7 @@ import com.eagleshing.ms.model.type.BlockType;
 import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "home_block")
@@ -13,14 +14,16 @@ public class HomeBlock {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @Column(length = 30)
+    private String name;
+
     @Enumerated(EnumType.STRING)
-    @NaturalId
     @Column(length = 30)
     private BlockType type;
 
     private int position;
 
-    @Column(name = "img",length = 255)
+    @Column(name = "img",length = 100)
     private String img;
 
     private boolean active;
@@ -63,5 +66,13 @@ public class HomeBlock {
 
     public void setPosition(int position) {
         this.position = position;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

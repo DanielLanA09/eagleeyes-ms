@@ -1,9 +1,16 @@
 package com.eagleshing.ms.model;
 
-import com.eagleshing.ms.model.type.ArticleType;
-import org.hibernate.annotations.NaturalId;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
-import javax.persistence.*;
+import org.springframework.beans.factory.annotation.Value;
+
+import com.eagleshing.ms.model.type.ArticleType;
 
 @Entity(name = "article_link")
 public class ArticleLink {
@@ -21,13 +28,43 @@ public class ArticleLink {
     @Column(length = 255)
     private String link;
 
+    @Column(length = 100)
+    private String img;
+
     @Enumerated(EnumType.STRING)
-    @NaturalId
     @Column(length = 20)
     private ArticleType type;
 
+    private int view;
+
+    private int position;
+
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
+    }
+
+    public int getView() {
+        return view;
+    }
+
+    public void setView(int view) {
+        this.view = view;
+    }
+
     public int getId() {
         return id;
+    }
+
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
     }
 
     public void setId(int id) {
@@ -65,4 +102,6 @@ public class ArticleLink {
     public void setBlockId(int blockId) {
         this.blockId = blockId;
     }
+
+
 }
