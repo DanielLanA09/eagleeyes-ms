@@ -1,10 +1,10 @@
 package com.eagleshing.ms.model.repository;
 
-import com.eagleshing.ms.model.HomeBlock;
-import org.springframework.data.domain.Pageable;
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.List;
+import com.eagleshing.ms.model.HomeBlock;
 
 public interface HomeBlockRepository extends JpaRepository<HomeBlock, Integer> {
     List<HomeBlock> findByActive(boolean active);
