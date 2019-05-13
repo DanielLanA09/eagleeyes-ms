@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.eagleshing.ms.model.Cover;
+import com.eagleshing.ms.model.repository.CoverRepository;
 import com.eagleshing.ms.payload.PriceCheckResponse;
 import com.eagleshing.ms.scrapy.BuildingBase;
 import com.eagleshing.ms.scrapy.BuildingPrice;
@@ -24,6 +26,9 @@ import com.eagleshing.ms.scrapy.repository.BuildingPriceRepository;
 @RestController
 @RequestMapping("/api/scrapy")
 public class ScrapyController {
+	
+	@Autowired
+	CoverRepository coverRepository;
 	
 	@Autowired 
 	BuildingBaseRepository buildingBaseHelper;
