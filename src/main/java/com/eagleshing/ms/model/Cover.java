@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 
 import com.eagleshing.ms.model.audit.DateAudit;
@@ -56,10 +57,24 @@ public class Cover extends DateAudit{
 	
 	@Column(name="building_id")
 	private int buildingId=0;
+
+	@Lob
+	@Column(name = "video_src")
+	private String videoSrc;
 	
 	public Cover() {
 		
 	}
+
+
+	public String getVideoSrc() {
+		return this.videoSrc;
+	}
+
+	public void setVideoSrc(String videoSrc) {
+		this.videoSrc = videoSrc;
+	}
+	
 
 	public String getAuthor() {
 		return author;
